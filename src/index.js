@@ -1,6 +1,6 @@
 // CSS Imports
-import "./styles/global.css";
 import "./styles/reset.css";
+import "./styles/global.css";
 // JS Imports
 import { App } from "./app.js";
 
