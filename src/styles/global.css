@@ -2,7 +2,7 @@
   /* ----Colors---- */
 
   /* Neutral */
-  --Neutral-900: hsl(243, 96%, 9%);
+  --App-Background: hsl(243, 96%, 9%);
   --Neutral-800: hsl(243, 27%, 20%);
   --Neutral-700: hsl(243, 23%, 24%);
   --Neutral-600: hsl(243, 23%, 30%);
@@ -18,10 +18,86 @@
   --Blue-700: hsl(248, 70%, 36%);
 }
 
+@font-face {
+  font-family: "Bricolage-Grotesque";
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  src: url("../assets/fonts/BricolageGrotesque-Bold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "DMSans";
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+  src: url("../assets/fonts/DMSans-Light.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "DMSans";
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  src: url("../assets/fonts/DMSans-Medium.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "DMSans";
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+  src: url("../assets/fonts/DMSans-SemiBold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "DMSans";
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+  src: url("../assets/fonts/DMSans-SemiBoldItalic.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "DMSans";
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  src: url("../assets/fonts/DMSans-Bold.ttf") format("truetype");
+}
+
+body,
+html {
+  background-color: var(--App-Background);
+}
+
 body {
   min-height: 100svh;
 }
 
 p {
   font-size: 1.125rem;
+}
+
+.header__container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 1rem;
+
+  .header__logo {
+    width: 6.5rem;
+    height: auto;
+  }
+
+  .units__button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    background: var(--Neutral-800);
+    border-radius: 0.5rem;
+    padding: 0.25rem 0.5rem;
+  }
 }
