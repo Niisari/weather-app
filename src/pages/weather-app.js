@@ -1,4 +1,5 @@
 import logo from "../assets/images/logo.svg";
+import icons from "../assets/images/icons/icons.js";
 export class WeatherApp {
   constructor(root) {
     this.root = root;
@@ -17,11 +18,14 @@ export class WeatherApp {
 
           <div class="units__container">
             <button class="units__button">
+              <img src="${icons.iconUnits}" alt="units icon"/>
+              <p class="units__text">Units</p>
+              <img src="${icons.iconDropdown}" alt="dropdown icon"/>
             </button>
           </div>
         </div>
       </header>
-      
+
     </main>
     `;
   }
