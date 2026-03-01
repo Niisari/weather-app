@@ -271,6 +271,14 @@ p {
   }
 }
 
+.daily__forecast--title02 {
+  color: var(--Neutral-200);
+  font-family: "DMSans", sans-serif;
+  font-weight: 600;
+  font-size: 1.125rem;
+  padding: 1rem 0 0 1rem;
+}
+
 .daily__forecast--grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(6.438rem, 1fr));
