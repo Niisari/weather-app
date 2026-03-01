@@ -87,17 +87,24 @@ p {
   padding: 1rem;
 
   .header__logo {
-    width: 6.5rem;
+    width: 9rem;
     height: auto;
   }
 
   .units__button {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.25rem;
 
     background: var(--Neutral-800);
-    border-radius: 0.5rem;
+    border-radius: 0.25rem;
     padding: 0.25rem 0.5rem;
+
+    .units__text {
+      color: var(--Neutral-200);
+      font-family: "DMSans", sans-serif;
+      font-weight: 300;
+      font-size: 0.875rem;
+    }
   }
 }
