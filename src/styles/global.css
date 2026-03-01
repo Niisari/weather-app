@@ -53,7 +53,7 @@
 @font-face {
   font-family: "DMSans";
   font-weight: 600;
-  font-style: normal;
+  font-style: italic;
   font-display: swap;
   src: url("../assets/fonts/DMSans-SemiBoldItalic.ttf") format("truetype");
 }
@@ -179,5 +179,61 @@ p {
     font-family: "DMSans", sans-serif;
     font-weight: 500;
     font-size: 1.125rem;
+  }
+}
+
+.info__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 1rem;
+
+  background-image: url("../assets/images/bg-today-small.svg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 1rem;
+  height: 50vh;
+
+  .info__card {
+    margin: 2.5rem auto;
+
+    .info__card--top {
+      margin: 0 0 1rem 0;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+
+      .info__card--title {
+        color: var(--Neutral-200);
+        font-family: "DMSans", sans-serif;
+        font-weight: 600;
+        font-size: 2rem;
+      }
+
+      .info__card--date {
+        color: var(--Neutral-200);
+        font-family: "DMSans", sans-serif;
+        font-weight: 300;
+        font-size: 1.125rem;
+      }
+    }
+
+    .info__card--bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+
+      .info__card--temp {
+        color: var(--Neutral-200);
+        font-family: "DMSans", sans-serif;
+        font-style: italic;
+        font-weight: 600;
+        font-size: 6rem;
+      }
+    }
   }
 }
