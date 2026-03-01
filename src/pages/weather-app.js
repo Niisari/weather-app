@@ -19,11 +19,16 @@ export class WeatherApp {
 
           <div class="units__container">
             <button class="units__button">
-              <img src="${icons.iconUnits}" alt="units icon"/>
+              <img 
+              src="${icons.iconUnits}" 
+              alt="units icon"
+              width="14"
+              height="auto"
+              class="units__wheel"/>
               <p class="units__text">Units</p>
               <svg 
-              width="13" 
-              height="8" 
+              width="10" 
+              height="auto" 
               fill="none" 
               viewBox="0 0 13 8">
               <path 
