@@ -1,3 +1,51 @@
+@font-face {
+  font-family: "Bricolage-Grotesque";
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  src: url("../assets/fonts/BricolageGrotesque-Bold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "DMSans";
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+  src: url("../assets/fonts/DMSans-Light.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "DMSans";
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  src: url("../assets/fonts/DMSans-Medium.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "DMSans";
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+  src: url("../assets/fonts/DMSans-SemiBold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "DMSans";
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+  src: url("../assets/fonts/DMSans-SemiBoldItalic.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "DMSans";
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  src: url("../assets/fonts/DMSans-Bold.ttf") format("truetype");
+}
+
 *,
 *::before,
 *::after {
