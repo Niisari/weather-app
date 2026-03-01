@@ -237,3 +237,36 @@ p {
     }
   }
 }
+
+.forecast__details--grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  padding: 1rem;
+
+  .forecast__details--card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    gap: 1.5rem;
+    padding: 1rem;
+    background-color: var(--Neutral-800);
+    border: 1px solid var(--Neutral-600);
+    border-radius: 0.75rem;
+
+    .forecast__details--title {
+      color: var(--Neutral-300);
+      font-family: "DMSans", sans-serif;
+      font-weight: 600;
+      font-size: 1.125rem;
+    }
+
+    .forecast__details--text {
+      color: var(--Neutral-200);
+      font-family: "DMSans", sans-serif;
+      font-weight: 500;
+      font-size: 1.5rem;
+    }
+  }
+}
