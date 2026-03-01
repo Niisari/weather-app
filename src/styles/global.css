@@ -270,3 +270,49 @@ p {
     }
   }
 }
+
+.daily__forecast--grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  padding: 1rem;
+
+  .daily__forecast--card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    gap: 0.5rem;
+    padding: 1rem 0;
+    background-color: var(--Neutral-800);
+    border: 1px solid var(--Neutral-600);
+    border-radius: 0.75rem;
+
+    .daily__forecast--title {
+      color: var(--Neutral-200);
+      font-family: "DMSans", sans-serif;
+      font-weight: 600;
+      font-size: 1.125rem;
+    }
+
+    .daily__forecast--temp {
+      color: var(--Neutral-200);
+      font-family: "DMSans", sans-serif;
+      font-weight: 500;
+      font-size: 1.125rem;
+    }
+
+    .daily__forecast--feels {
+      color: var(--Neutral-300);
+      font-family: "DMSans", sans-serif;
+      font-weight: 500;
+      font-size: 1.125rem;
+    }
+
+    .daily__forecast--bottom {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+  }
+}
