@@ -63,7 +63,7 @@ export class WeatherApp {
             </div>
           </div>
 
-          <div class="info__container">
+          <section class="info__container">
             <div class="info__card">
               <div class="info__card--top">
                 <h2 class="info__card--title">Prague, Czechia</h2>
@@ -80,9 +80,9 @@ export class WeatherApp {
                 <span class="info__card--temp">20°</span>
               </div>
             </div>
-          </div>
+          </section>
 
-          <div class="forecast__details--grid">
+          <section class="forecast__details--grid">
             <div class="forecast__details--card">
               <h3 class="forecast__details--title">Feels Like</h3>
               <span class="forecast__details--feels forecast__details--text">18°</span>
@@ -102,7 +102,110 @@ export class WeatherApp {
               <h3 class="forecast__details--title">Precipitation</h3>
               <span class="forecast__details--precipitation forecast__details--text">0 mm</span>
             </div>
-          </div>
+          </section>
+
+          <section class="daily__forecast--section">
+            <h2 class="daily__forecast--title">Daily Forecast</h2>
+            <div class="daily__forecast--grid">
+              <div class="daily__forecast--card">
+                <h3 class="daily__forecast--title">Mon</h3>
+                <span class="daily__forecast--icon">
+                  <img 
+                  src="${icons.iconSunny}" 
+                  alt="sunny icon"
+                  width="80"
+                  height="auto"/>
+                </span>
+                  <div class="daily__forecast--bottom">
+                    <span class="daily__forecast--temp">20°</span><span class="daily__forecast--feels">18°</span>
+                  </div>
+              </div>
+
+              <div class="daily__forecast--card">
+                <h3 class="daily__forecast--title">Tue</h3>
+                <span class="daily__forecast--icon">
+                  <img 
+                  src="${icons.iconSunny}" 
+                  alt="sunny icon"
+                  width="80"
+                  height="auto"/>
+                </span>
+                  <div class="daily__forecast--bottom">
+                    <span class="daily__forecast--temp">20°</span><span class="daily__forecast--feels">18°</span>
+                  </div>
+              </div>
+
+              <div class="daily__forecast--card">
+                <h3 class="daily__forecast--title">Wed</h3>
+                <span class="daily__forecast--icon">
+                  <img 
+                  src="${icons.iconSunny}" 
+                  alt="sunny icon"
+                  width="80"
+                  height="auto"/>
+                </span>
+                  <div class="daily__forecast--bottom">
+                    <span class="daily__forecast--temp">20°</span><span class="daily__forecast--feels">18°</span>
+                  </div>
+              </div>
+
+              <div class="daily__forecast--card">
+                <h3 class="daily__forecast--title">Thu</h3>
+                <span class="daily__forecast--icon">
+                  <img 
+                  src="${icons.iconSunny}" 
+                  alt="sunny icon"
+                  width="80"
+                  height="auto"/>
+                </span>
+                  <div class="daily__forecast--bottom">
+                    <span class="daily__forecast--temp">20°</span><span class="daily__forecast--feels">18°</span>
+                  </div>
+              </div>
+
+              <div class="daily__forecast--card">
+                <h3 class="daily__forecast--title">Fri</h3>
+                <span class="daily__forecast--icon">
+                  <img 
+                  src="${icons.iconSunny}" 
+                  alt="sunny icon"
+                  width="80"
+                  height="auto"/>
+                </span>
+                  <div class="daily__forecast--bottom">
+                    <span class="daily__forecast--temp">20°</span><span class="daily__forecast--feels">18°</span>
+                  </div>
+              </div>
+
+              <div class="daily__forecast--card">
+                <h3 class="daily__forecast--title">Sat</h3>
+                <span class="daily__forecast--icon">
+                  <img 
+                  src="${icons.iconSunny}" 
+                  alt="sunny icon"
+                  width="80"
+                  height="auto"/>
+                </span>
+                  <div class="daily__forecast--bottom">
+                    <span class="daily__forecast--temp">20°</span><span class="daily__forecast--feels">18°</span>
+                  </div>
+              </div>
+
+              <div class="daily__forecast--card">
+                <h3 class="daily__forecast--title">Sun</h3>
+                <span class="daily__forecast--icon">
+                  <img 
+                  src="${icons.iconSunny}" 
+                  alt="sunny icon"
+                  width="80"
+                  height="auto"/>
+                </span>
+                  <div class="daily__forecast--bottom">
+                    <span class="daily__forecast--temp">20°</span><span class="daily__forecast--feels">18°</span>
+                  </div>
+              </div>
+            </div>
+          </section>
 
         </div>
       </section>
