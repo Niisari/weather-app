@@ -28,4 +28,5 @@ export default {
   iconError,
   iconCheckmark,
   iconDropdown,
+  iconDrizzle,
 };
