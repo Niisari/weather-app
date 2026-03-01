@@ -299,28 +299,105 @@ p {
     .daily__forecast--title {
       color: var(--Neutral-200);
       font-family: "DMSans", sans-serif;
-      font-weight: 600;
+      font-weight: 300;
       font-size: 1.125rem;
     }
 
     .daily__forecast--temp {
       color: var(--Neutral-200);
       font-family: "DMSans", sans-serif;
-      font-weight: 500;
-      font-size: 1.125rem;
+      font-weight: 300;
+      font-size: 1rem;
     }
 
     .daily__forecast--feels {
       color: var(--Neutral-300);
       font-family: "DMSans", sans-serif;
-      font-weight: 500;
-      font-size: 1.125rem;
+      font-weight: 300;
+      font-size: 1rem;
     }
 
     .daily__forecast--bottom {
       display: flex;
       align-items: center;
       gap: 2rem;
+    }
+  }
+}
+
+.hourly__forecast--section {
+  margin: 1rem;
+  background-color: var(--Neutral-800);
+  border-radius: 1rem;
+
+  .hourly__forecast--top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 1rem 1rem 0;
+
+    .hourly__forecast--title {
+      color: var(--Neutral-200);
+      font-family: "DMSans", sans-serif;
+      font-weight: 600;
+      font-size: 1.125rem;
+    }
+
+    .hourly__forecast--btn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      background-color: var(--Neutral-600);
+      color: var(--Neutral-200);
+      font-family: "DMSans", sans-serif;
+      font-weight: 300;
+      font-size: 1rem;
+
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+    }
+  }
+}
+
+.hourly__forecast--flex {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  gap: 1rem;
+
+  .hourly__forecast--card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background-color: var(--Neutral-700);
+    border-radius: 0.5rem;
+    border: 1px solid var(--Neutral-600);
+    padding: 0 1rem 0 0;
+
+    .hourly__forecast--time {
+      display: flex;
+      align-items: center;
+      color: var(--Neutral-200);
+      font-size: 1.125rem;
+      font-family: "DMSans", sans-serif;
+      font-weight: 300;
+    }
+
+    .hourly__forecast--temp {
+      display: flex;
+      align-items: center;
+      color: var(--Neutral-200);
+      font-size: 1rem;
+      font-family: "DMSans", sans-serif;
+      font-weight: 300;
+    }
+
+    img {
+      width: 3rem;
+      height: auto;
     }
   }
 }
