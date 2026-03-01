@@ -207,6 +207,108 @@ export class WeatherApp {
             </div>
           </section>
 
+          <section class="hourly__forecast--section">
+            <div class="hourly__forecast--top">
+              <h2 class="hourly__forecast--title">Hourly Forecast</h2>
+              <button class="hourly__forecast--btn">
+              Tuesday
+                <svg 
+                width="10" 
+                height="auto" 
+                fill="none" 
+                viewBox="0 0 13 8">
+                <path 
+                fill="#fff" 
+                d="M6.309 7.484 1.105 2.316c-.175-.14-.175-.421 0-.597l.704-.668a.405.405 0 0 1 .597 0l4.219 4.148 4.184-4.148c.175-.176.457-.176.597 0l.703.668c.176.176.176.457 0 .597L6.906 7.484a.405.405 0 0 1-.597 0Z"/>
+                </svg>              
+              </button>
+            </div>
+
+            <div class="hourly__forecast--flex">
+
+              <div class="hourly__forecast--card">
+                <div class="hourly__forecast--time">
+                  <img src="${icons.iconSunny}" alt="sunny icon"/>
+                  <span>3 PM</span>
+                </div>
+                <div class="hourly__forecast--temp">
+                  <span>20°</span>
+                </div>
+              </div>
+
+              <div class="hourly__forecast--card">
+                <div class="hourly__forecast--time">
+                  <img src="${icons.iconStorm}" alt="sunny icon"/>
+                  <span>4 PM</span>
+                </div>
+                <div class="hourly__forecast--temp">
+                  <span>20°</span>
+                </div>
+              </div>
+
+              <div class="hourly__forecast--card">
+                <div class="hourly__forecast--time">
+                  <img src="${icons.iconSnow}" alt="sunny icon"/>
+                  <span>5 PM</span>
+                </div>
+                <div class="hourly__forecast--temp">
+                  <span>20°</span>
+                </div>
+              </div>
+
+              <div class="hourly__forecast--card">
+                <div class="hourly__forecast--time">
+                  <img src="${icons.iconPartlyCloudy}" alt="sunny icon"/>
+                  <span>6 PM</span>
+                </div>
+                <div class="hourly__forecast--temp">
+                  <span>20°</span>
+                </div>
+              </div>
+
+              <div class="hourly__forecast--card">
+                <div class="hourly__forecast--time">
+                  <img src="${icons.iconRain}" alt="sunny icon"/>
+                  <span>7 PM</span>
+                </div>
+                <div class="hourly__forecast--temp">
+                  <span>20°</span>
+                </div>
+              </div>
+
+              <div class="hourly__forecast--card">
+                <div class="hourly__forecast--time">
+                  <img src="${icons.iconOvercast}" alt="sunny icon"/>
+                  <span>8 PM</span>
+                </div>
+                <div class="hourly__forecast--temp">
+                  <span>20°</span>
+                </div>
+              </div>
+
+              <div class="hourly__forecast--card">
+                <div class="hourly__forecast--time">
+                  <img src="${icons.iconOvercast}" alt="sunny icon"/>
+                  <span>9 PM</span>
+                </div>
+                <div class="hourly__forecast--temp">
+                  <span>20°</span>
+                </div>
+              </div>
+
+              <div class="hourly__forecast--card">
+                <div class="hourly__forecast--time">
+                  <img src="${icons.iconDrizzle}" alt="sunny icon"/>
+                  <span>10 PM</span>
+                </div>
+                <div class="hourly__forecast--temp">
+                  <span>20°</span>
+                </div>
+              </div>
+
+            </div>
+          </section>
+
         </div>
       </section>
     </main>
