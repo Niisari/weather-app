@@ -122,23 +122,28 @@ p {
     font-weight: 700;
     font-size: 3rem;
 
-    padding: 1rem;
+    padding: 1rem 1rem 3rem 1rem;
     text-align: center;
+
+    @media (max-width: 20.688rem) {
+      font-size: 2.85rem;
+    }
   }
 
   .search__form {
     display: flex;
     flex-direction: column;
     width: 100%;
+    gap: 0.5rem;
   }
 
   .search__input {
     width: 100%;
     background: var(--Neutral-800);
     border-radius: 0.5rem;
-    padding: 1rem 0.75rem;
+    padding: 1.175rem 1rem;
 
-    color: var(--Neutral-200);
+    color: var(--Neutral-300);
     font-family: "DMSans", sans-serif;
     font-weight: 300;
     font-size: 0.875rem;
@@ -156,7 +161,23 @@ p {
 
   .search__icon {
     position: absolute;
-    top: 49.5%;
+    top: 55%;
     left: 2rem;
+
+    @media (max-width: 20.688rem) {
+      top: 53.5%;
+    }
+  }
+
+  .search__button {
+    width: 100%;
+    background: var(--Blue-500);
+    border-radius: 0.5rem;
+    padding: 1rem 1rem;
+
+    color: var(--Neutral-200);
+    font-family: "DMSans", sans-serif;
+    font-weight: 500;
+    font-size: 1.125rem;
   }
 }
