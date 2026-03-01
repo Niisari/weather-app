@@ -1,9 +1,11 @@
+import { WeatherApp } from "./pages/weather-app.js";
+
 export class App {
   constructor(root) {
     this.root = root;
   }
 
   init() {
-    this.root.innerHTML = `<h1>Weather App</h1>`;
+    new WeatherApp(this.root).init();
   }
 }
