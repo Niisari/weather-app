@@ -26,7 +26,7 @@ export default {
         use: ["style-loader", "css-loader"],
       },
       {
-        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        test: /\.(png|svg|jpg|jpeg|webp|gif)$/i,
         type: "asset/resource", // Handles weather icons automatically
       },
     ],
