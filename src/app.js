@@ -6,6 +6,6 @@ export class App {
   }
 
   init() {
-    new WeatherApp(this.root).init();
+    new WeatherApp(this.root).render();
   }
 }
