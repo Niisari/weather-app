@@ -105,7 +105,7 @@ export class WeatherApp {
           </section>
 
           <section class="daily__forecast--section">
-            <h2 class="daily__forecast--title">Daily Forecast</h2>
+            <h2 class="daily__forecast--title02">Daily Forecast</h2>
             <div class="daily__forecast--grid">
               <div class="daily__forecast--card">
                 <h3 class="daily__forecast--title">Mon</h3>
@@ -125,7 +125,7 @@ export class WeatherApp {
                 <h3 class="daily__forecast--title">Tue</h3>
                 <span class="daily__forecast--icon">
                   <img 
-                  src="${icons.iconSunny}" 
+                  src="${icons.iconRain}" 
                   alt="sunny icon"
                   width="80"
                   height="auto"/>
@@ -139,7 +139,7 @@ export class WeatherApp {
                 <h3 class="daily__forecast--title">Wed</h3>
                 <span class="daily__forecast--icon">
                   <img 
-                  src="${icons.iconSunny}" 
+                  src="${icons.iconSnow}" 
                   alt="sunny icon"
                   width="80"
                   height="auto"/>
@@ -153,7 +153,7 @@ export class WeatherApp {
                 <h3 class="daily__forecast--title">Thu</h3>
                 <span class="daily__forecast--icon">
                   <img 
-                  src="${icons.iconSunny}" 
+                  src="${icons.iconStorm}" 
                   alt="sunny icon"
                   width="80"
                   height="auto"/>
@@ -167,7 +167,7 @@ export class WeatherApp {
                 <h3 class="daily__forecast--title">Fri</h3>
                 <span class="daily__forecast--icon">
                   <img 
-                  src="${icons.iconSunny}" 
+                  src="${icons.iconPartlyCloudy}" 
                   alt="sunny icon"
                   width="80"
                   height="auto"/>
@@ -181,7 +181,7 @@ export class WeatherApp {
                 <h3 class="daily__forecast--title">Sat</h3>
                 <span class="daily__forecast--icon">
                   <img 
-                  src="${icons.iconSunny}" 
+                  src="${icons.iconOvercast}" 
                   alt="sunny icon"
                   width="80"
                   height="auto"/>
@@ -195,7 +195,7 @@ export class WeatherApp {
                 <h3 class="daily__forecast--title">Sun</h3>
                 <span class="daily__forecast--icon">
                   <img 
-                  src="${icons.iconSunny}" 
+                  src="${icons.iconDrizzle}" 
                   alt="sunny icon"
                   width="80"
                   height="auto"/>
