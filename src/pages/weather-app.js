@@ -70,7 +70,13 @@ export class WeatherApp {
                 <span class="info__card--date">Tuesday, Aug 5, 2025</span>
               </div>
               <div class="info__card--bottom">
-                <span class="info__card--icon"></span>
+                <span class="info__card--icon">
+                <img 
+                src="${icons.iconSunny}" 
+                alt="sunny icon"
+                width="120"
+                height="auto"/>
+                </span>
                 <span class="info__card--temp">20°</span>
               </div>
             </div>
