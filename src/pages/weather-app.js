@@ -50,12 +50,12 @@ export class WeatherApp {
               <input 
               type="text" 
               class="search__input"
-              placeholder="Search for a city"/>
+              placeholder="Search for a city..."/>
                 <img 
                 src="${icons.iconSearch}" 
                 alt="search icon"
                 class="search__icon"
-                width="20"
+                width="19"
                 height="auto"/>
                 <button class="search__button">
                   Search
