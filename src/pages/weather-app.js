@@ -82,6 +82,28 @@ export class WeatherApp {
             </div>
           </div>
 
+          <div class="forecast__details--grid">
+            <div class="forecast__details--card">
+              <h3 class="forecast__details--title">Feels Like</h3>
+              <span class="forecast__details--feels forecast__details--text">18°</span>
+            </div>
+
+            <div class="forecast__details--card">
+              <h3 class="forecast__details--title">Humidity</h3>
+              <span class="forecast__details--humidity forecast__details--text">46%</span>
+            </div>
+
+            <div class="forecast__details--card">
+              <h3 class="forecast__details--title">Wind</h3>
+              <span class="forecast__details--wind forecast__details--text">7 km/h</span>
+            </div>
+
+            <div class="forecast__details--card">
+              <h3 class="forecast__details--title">Precipitation</h3>
+              <span class="forecast__details--precipitation forecast__details--text">0 mm</span>
+            </div>
+          </div>
+
         </div>
       </section>
     </main>
