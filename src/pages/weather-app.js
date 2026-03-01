@@ -61,7 +61,19 @@ export class WeatherApp {
                   Search
                 </button>
             </div>
+          </div>
 
+          <div class="info__container">
+            <div class="info__card">
+              <div class="info__card--top">
+                <h2 class="info__card--title">Prague, Czechia</h2>
+                <span class="info__card--date">Tuesday, Aug 5, 2025</span>
+              </div>
+              <div class="info__card--bottom">
+                <span class="info__card--icon"></span>
+                <span class="info__card--temp">20°</span>
+              </div>
+            </div>
           </div>
 
         </div>
