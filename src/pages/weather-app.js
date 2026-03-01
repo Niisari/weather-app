@@ -40,6 +40,32 @@ export class WeatherApp {
         </div>
       </header>
 
+      <section class="main__section">
+        <div class="main__container">
+
+          <div class="search__container">
+            <h1 class="search__title">How's the sky looking today?</h1>
+
+            <div class="search__form">
+              <input 
+              type="text" 
+              class="search__input"
+              placeholder="Search for a city"/>
+                <img 
+                src="${icons.iconSearch}" 
+                alt="search icon"
+                class="search__icon"
+                width="20"
+                height="auto"/>
+                <button class="search__button">
+                  Search
+                </button>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
     </main>
     `;
   }
