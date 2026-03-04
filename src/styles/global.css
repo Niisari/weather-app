@@ -461,7 +461,7 @@ p {
   }
 
   .info__container {
-    height: 40vh;
+    height: 35vh;
 
     .info__card {
       display: flex;
