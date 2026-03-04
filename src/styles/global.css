@@ -149,6 +149,7 @@ p {
     font-size: 0.875rem;
 
     position: relative;
+    anchor-name: --search-bar;
 
     &::placeholder {
       color: var(--Neutral-300);
@@ -161,12 +162,11 @@ p {
 
   .search__icon {
     position: absolute;
-    top: 55%;
-    left: 2rem;
-
-    @media (max-width: 20.688rem) {
-      top: 53.5%;
-    }
+    position-anchor: --search-bar;
+    top: anchor(center);
+    left: anchor(left);
+    transform: translateY(-50%);
+    margin-left: 1rem;
   }
 
   .search__button {
