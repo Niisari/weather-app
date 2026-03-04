@@ -63,6 +63,7 @@ export class WeatherApp {
             </div>
           </div>
 
+          <div class="main__content--grid">
           <section class="info__container">
             <div class="info__card">
               <div class="info__card--top">
@@ -308,6 +309,7 @@ export class WeatherApp {
 
             </div>
           </section>
+          </div>
 
         </div>
       </section>
