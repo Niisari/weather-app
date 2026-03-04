@@ -462,7 +462,7 @@ p {
   }
 
   .info__container {
-    height: 39vh;
+    height: 40vh;
 
     .info__card {
       display: flex;
@@ -490,6 +490,12 @@ p {
 
   .hourly__forecast--section {
     grid-area: hourly;
+  }
+
+  .hourly__forecast--flex {
+    .hourly__forecast--card {
+      padding: 0.25rem 1rem;
+    }
   }
 
   .forecast__details--section {
