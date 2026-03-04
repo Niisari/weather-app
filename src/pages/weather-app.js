@@ -45,7 +45,6 @@ export class WeatherApp {
 
           <div class="search__container">
             <h1 class="search__title">How's the sky looking today?</h1>
-
             <div class="search__form">
               <input 
               type="text" 
