@@ -232,7 +232,7 @@ p {
         font-family: "DMSans", sans-serif;
         font-style: italic;
         font-weight: 600;
-        font-size: 6rem;
+        font-size: 5rem;
       }
     }
   }
@@ -410,6 +410,55 @@ p {
       "info hourly"
       "forecast hourly"
       "daily hourly";
+
+    margin: 0 4vw;
+  }
+
+  .forecast__details--grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(6.438rem, 1fr));
+  }
+
+  .daily__forecast--grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
+
+    img {
+      width: 3rem;
+    }
+
+    .daily__forecast--card {
+      .daily__forecast--bottom {
+        gap: 1rem;
+      }
+    }
+  }
+
+  .info__container {
+    height: 30vh;
+
+    .info__card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: auto 0;
+      padding: 0 1rem;
+      width: 100%;
+
+      .info__card--top {
+        align-items: flex-start;
+        gap: 0.5rem;
+        margin: 0;
+
+        .info__card--title {
+          font-size: 1.5rem;
+        }
+
+        .info__card--date {
+          font-size: 1rem;
+        }
+      }
+    }
   }
 
   .hourly__forecast--section {
