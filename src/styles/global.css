@@ -401,3 +401,30 @@ p {
     }
   }
 }
+
+@media only screen and (min-width: 62rem) {
+  .main__content--grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-areas:
+      "info hourly"
+      "forecast hourly"
+      "daily hourly";
+  }
+
+  .hourly__forecast--section {
+    grid-area: hourly;
+  }
+
+  .forecast__details--section {
+    grid-area: forecast;
+  }
+
+  .daily__forecast--section {
+    grid-area: daily;
+  }
+
+  .info__section {
+    grid-area: info;
+  }
+}
