@@ -404,12 +404,13 @@ p {
 
 @media only screen and (min-width: 62rem) {
   .header__container {
-    margin: 0 6vw;
+    margin: 4vh 6vw 0;
   }
 
   .search__container {
+    padding: 1rem 1rem 2rem;
     .search__title {
-      margin: 0 8vw 0 0;
+      margin: 0 8.5vw 0 0;
     }
 
     .search__form {
@@ -433,7 +434,7 @@ p {
   .main__content--grid {
     display: grid;
     grid-template-columns: auto auto;
-    margin: 0 6vw;
+    margin: 0 6vw 6vh;
     grid-template-areas:
       "info hourly"
       "forecast hourly"
@@ -461,7 +462,7 @@ p {
   }
 
   .info__container {
-    height: 35vh;
+    height: 39vh;
 
     .info__card {
       display: flex;
