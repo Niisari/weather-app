@@ -403,15 +403,40 @@ p {
 }
 
 @media only screen and (min-width: 62rem) {
+  .header__container {
+  }
+
+  .search__container {
+    .search__title {
+      margin: 0 8vw 0 0;
+    }
+
+    .search__form {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      gap: 1rem;
+
+      margin: 0 10.25vw 0 0;
+    }
+
+    .search__input {
+      width: 30rem;
+    }
+
+    .search__button {
+      width: 8rem;
+    }
+  }
+
   .main__content--grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: auto auto;
+    margin: 0 8vw;
     grid-template-areas:
       "info hourly"
       "forecast hourly"
       "daily hourly";
-
-    margin: 0 4vw;
   }
 
   .forecast__details--grid {
@@ -435,7 +460,7 @@ p {
   }
 
   .info__container {
-    height: 30vh;
+    height: 40vh;
 
     .info__card {
       display: flex;
