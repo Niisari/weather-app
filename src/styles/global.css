@@ -404,6 +404,7 @@ p {
 
 @media only screen and (min-width: 62rem) {
   .header__container {
+    margin: 0 6vw;
   }
 
   .search__container {
@@ -432,7 +433,7 @@ p {
   .main__content--grid {
     display: grid;
     grid-template-columns: auto auto;
-    margin: 0 8vw;
+    margin: 0 6vw;
     grid-template-areas:
       "info hourly"
       "forecast hourly"
