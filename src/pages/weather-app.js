@@ -1,6 +1,7 @@
 import logo from "../assets/images/logo.svg";
 import icons from "../assets/images/icons/icons.js";
 import { UnitsMenu } from "../components/UnitsMenu.js";
+import { HourlyMenu } from "../components/HourlyMenu.js";
 export class WeatherApp {
   constructor(root) {
     this.root = root;
@@ -31,6 +32,25 @@ export class WeatherApp {
       input.addEventListener("change", (e) => {
         console.log(`${e.target.name} changed to ${e.target.value}`);
       });
+    });
+
+    const hourlyButton = this.root.querySelector("#hourly-btn");
+    const hourlyDropdown = this.root.querySelector("#hourly-dropdown");
+
+    if (!hourlyButton || !hourlyDropdown) return;
+
+    hourlyButton.addEventListener("click", (e) => {
+      e.stopPropagation();
+      hourlyDropdown.classList.toggle("show");
+    });
+
+    document.addEventListener("click", (e) => {
+      if (
+        !hourlyButton.contains(e.target) &&
+        !hourlyDropdown.contains(e.target)
+      ) {
+        hourlyDropdown.classList.remove("show");
+      }
     });
   }
 
@@ -240,7 +260,7 @@ export class WeatherApp {
           <section class="hourly__forecast--section">
             <div class="hourly__forecast--top">
               <h2 class="hourly__forecast--title">Hourly Forecast</h2>
-              <button class="hourly__forecast--btn">
+              <button class="hourly__forecast--btn" type="button" id="hourly-btn">
               Tuesday
                 <svg 
                 width="10" 
@@ -252,6 +272,7 @@ export class WeatherApp {
                 d="M6.309 7.484 1.105 2.316c-.175-.14-.175-.421 0-.597l.704-.668a.405.405 0 0 1 .597 0l4.219 4.148 4.184-4.148c.175-.176.457-.176.597 0l.703.668c.176.176.176.457 0 .597L6.906 7.484a.405.405 0 0 1-.597 0Z"/>
                 </svg>              
               </button>
+              ${HourlyMenu.render()}
             </div>
 
             <div class="hourly__forecast--flex">
