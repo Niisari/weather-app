@@ -114,6 +114,11 @@ p {
       font-size: 0.875rem;
     }
   }
+
+  .units__button:hover,
+  .units__button:focus {
+    background: var(--Neutral-700);
+  }
 }
 /* Searchbar Styles */
 .search__container {
