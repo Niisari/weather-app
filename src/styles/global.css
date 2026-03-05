@@ -20,7 +20,7 @@
   /* Font Size */
   --Default-Font-Size: 1.125rem;
 }
-
+/* Fonts */
 @font-face {
   font-family: "Bricolage-Grotesque";
   font-weight: 700;
@@ -68,7 +68,7 @@
   font-display: swap;
   src: url("../assets/fonts/DMSans-Bold.ttf") format("truetype");
 }
-
+/* General Typography */
 body,
 html {
   background-color: var(--App-Background);
@@ -81,7 +81,7 @@ body {
 p {
   font-size: 1.125rem;
 }
-
+/* Header Styles */
 .header__container {
   display: flex;
   justify-content: space-between;
@@ -115,7 +115,7 @@ p {
     }
   }
 }
-
+/* Searchbar Styles */
 .search__container {
   display: flex;
   flex-direction: column;
@@ -188,7 +188,7 @@ p {
     font-size: 1.125rem;
   }
 }
-
+/* Info Section Styles */
 .info__container {
   display: flex;
   flex-direction: column;
@@ -244,7 +244,7 @@ p {
     }
   }
 }
-
+/* Forecast Section Styles */
 .forecast__details--grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -277,7 +277,7 @@ p {
     }
   }
 }
-
+/* Daily Forecast Section Styles */
 .daily__forecast--title02 {
   color: var(--Neutral-200);
   font-family: "DMSans", sans-serif;
@@ -331,7 +331,7 @@ p {
     }
   }
 }
-
+/* Hourly Forecast Section Styles */
 .hourly__forecast--section {
   margin: 1rem;
   background-color: var(--Neutral-800);
@@ -408,7 +408,7 @@ p {
     }
   }
 }
-
+/* Media Queries - Desktop */
 @media only screen and (min-width: 62rem) {
   .header__container {
     margin: 4vh 6vw 0;
@@ -517,11 +517,11 @@ p {
     grid-area: info;
   }
 }
-
+/* Units Dropdown Menu Styles */
 .units__dropdown {
   display: none;
   position: absolute;
-  top: 45px;
+  top: 2.813rem;
   right: 0;
   background: var(--Neutral-800); /* Dark theme */
   border-radius: 0.5rem;
