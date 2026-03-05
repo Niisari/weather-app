@@ -1,8 +1,28 @@
 import logo from "../assets/images/logo.svg";
 import icons from "../assets/images/icons/icons.js";
+import { UnitsMenu } from "../components/UnitsMenu.js";
 export class WeatherApp {
   constructor(root) {
     this.root = root;
+  }
+
+  initEvents() {
+    const unitsButton = this.root.querySelector("#units-button");
+    const unitsDropdown = this.root.querySelector("#units-dropdown");
+
+    unitsButton.addEventListener("click", (e) => {
+      e.stopPropagation();
+      unitsDropdown.classList.toggle("show");
+    });
+
+    document.addEventListener("click", (e) => {
+      if (
+        !unitsButton.contains(e.target) &&
+        !unitsDropdown.contains(e.target)
+      ) {
+        unitsDropdown.classList.remove("show");
+      }
+    });
   }
 
   render() {
@@ -18,7 +38,7 @@ export class WeatherApp {
           </div>
 
           <div class="units__container">
-            <button class="units__button">
+            <button class="units__button" type="button" id="units-button">
               <img 
               src="${icons.iconUnits}" 
               alt="units icon"
@@ -36,6 +56,7 @@ export class WeatherApp {
               d="M6.309 7.484 1.105 2.316c-.175-.14-.175-.421 0-.597l.704-.668a.405.405 0 0 1 .597 0l4.219 4.148 4.184-4.148c.175-.176.457-.176.597 0l.703.668c.176.176.176.457 0 .597L6.906 7.484a.405.405 0 0 1-.597 0Z"/>
               </svg>
             </button>
+            ${UnitsMenu.render()}
           </div>
         </div>
       </header>
@@ -314,5 +335,7 @@ export class WeatherApp {
       </section>
     </main>
     `;
+
+    this.initEvents();
   }
 }
