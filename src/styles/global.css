@@ -612,7 +612,7 @@ p {
   padding-bottom: 0.25rem;
   margin-bottom: 0.5rem;
 }
-
+/* Hourly Dropdown Menu Styles */
 .hourly__dropdown.show {
   display: flex;
   flex-direction: column;
