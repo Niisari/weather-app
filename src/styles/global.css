@@ -480,6 +480,7 @@ p {
 
   .info__container {
     height: 40vh;
+    background-image: url("../assets/images/bg-today-large.svg");
 
     .info__card {
       display: flex;
