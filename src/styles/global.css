@@ -192,6 +192,11 @@ p {
     font-weight: 500;
     font-size: 1.125rem;
   }
+
+  .search__button:hover,
+  .search__button:focus {
+    background: var(--Blue-700);
+  }
 }
 /* Info Section Styles */
 .info__container {
@@ -569,6 +574,7 @@ p {
 .units__option:hover {
   background: var(--Neutral-700);
   color: var(--Neutral-0);
+  cursor: pointer;
 }
 
 .units__option:has(input:checked) {
