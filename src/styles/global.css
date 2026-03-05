@@ -91,6 +91,10 @@ p {
     height: auto;
   }
 
+  .units__container {
+    position: relative;
+  }
+
   .units__button {
     display: flex;
     align-items: center;
@@ -509,4 +513,23 @@ p {
   .info__section {
     grid-area: info;
   }
+}
+
+.units__dropdown {
+  display: none; /* Hidden by default */
+  position: absolute;
+  top: 100%; /* Positions it right below the button */
+  right: 0;
+  margin-top: 8px;
+  background-color: #2d2f45; /* Match your app's dark menu background */
+  border-radius: 8px;
+  width: 200px;
+  padding: 16px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+  z-index: 100;
+}
+
+.units__dropdown.show {
+  display: flex;
+  flex-direction: column;
 }
