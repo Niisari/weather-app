@@ -37,4 +37,5 @@ textarea,
 select {
   font: inherit;
   border: none;
+  cursor: pointer;
 }
