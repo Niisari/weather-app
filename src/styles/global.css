@@ -16,6 +16,9 @@
   /* Blue */
   --Blue-500: hsl(233, 67%, 56%);
   --Blue-700: hsl(248, 70%, 36%);
+
+  /* Font Size */
+  --Default-Font-Size: 1.125rem;
 }
 
 @font-face {
@@ -516,20 +519,71 @@ p {
 }
 
 .units__dropdown {
-  display: none; /* Hidden by default */
+  display: none;
   position: absolute;
-  top: 100%; /* Positions it right below the button */
+  top: 45px;
   right: 0;
-  margin-top: 8px;
-  background-color: #2d2f45; /* Match your app's dark menu background */
-  border-radius: 8px;
-  width: 200px;
-  padding: 16px;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
-  z-index: 100;
+  background: var(--Neutral-800); /* Dark theme */
+  border-radius: 0.5rem;
+  border: 1px solid var(--Neutral-600);
+  padding: 1rem;
+  width: 13.75rem;
+  z-index: 1000;
+  box-shadow: 0 0.625rem 1.875rem rgba(0, 0, 0, 0.5);
 }
 
 .units__dropdown.show {
+  display: block;
+}
+
+.units__switch-btn {
+  color: var(--Neutral-200);
+  font-family: "DMSans", sans-serif;
+  font-weight: 500;
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+.units__label {
+  color: var(--Neutral-300);
+  font-family: "DMSans", sans-serif;
+  font-size: 0.875rem;
+  margin-bottom: 0.25rem;
+}
+
+.units__option {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.625rem;
+  cursor: pointer;
+  border-radius: 6px;
+  color: var(--Neutral-200);
+}
+
+.units__option:hover {
+  background: var(--Neutral-700);
+  color: var(--Neutral-0);
+}
+
+.units__option:has(input:checked) {
+  background: var(--Neutral-700);
+  color: var(--Neutral-0);
+}
+
+.units__option input {
+  display: none;
+}
+
+.units__checkmark {
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.units__option input:checked ~ .units__checkmark {
+  opacity: 1;
+}
+
+.units__option input:checked ~ span {
+  color: var(--Neutral-0);
 }
