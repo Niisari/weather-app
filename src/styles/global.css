@@ -540,8 +540,7 @@ p {
   color: var(--Neutral-200);
   font-family: "DMSans", sans-serif;
   font-weight: 500;
-  font-size: 1rem;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.5rem;
 }
 
 .units__label {
@@ -556,8 +555,9 @@ p {
   justify-content: space-between;
   align-items: center;
   padding: 0.625rem;
-  cursor: pointer;
   border-radius: 6px;
+  font-weight: 500;
+  font-family: "DMSans", sans-serif;
   color: var(--Neutral-200);
 }
 
@@ -586,4 +586,10 @@ p {
 
 .units__option input:checked ~ span {
   color: var(--Neutral-0);
+}
+
+.units__group:not(:last-child) {
+  border-bottom: 1px solid var(--Neutral-600);
+  padding-bottom: 0.25rem;
+  margin-bottom: 0.5rem;
 }
