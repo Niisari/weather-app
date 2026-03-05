@@ -10,6 +10,8 @@ export class WeatherApp {
     const unitsButton = this.root.querySelector("#units-button");
     const unitsDropdown = this.root.querySelector("#units-dropdown");
 
+    if (!unitsButton || !unitsDropdown) return;
+
     unitsButton.addEventListener("click", (e) => {
       e.stopPropagation();
       unitsDropdown.classList.toggle("show");
@@ -22,6 +24,13 @@ export class WeatherApp {
       ) {
         unitsDropdown.classList.remove("show");
       }
+    });
+
+    const inputs = unitsDropdown.querySelectorAll('input[type="radio"]');
+    inputs.forEach((input) => {
+      input.addEventListener("change", (e) => {
+        console.log(`${e.target.name} changed to ${e.target.value}`);
+      });
     });
   }
 
