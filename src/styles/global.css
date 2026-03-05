@@ -376,6 +376,12 @@ p {
       padding: 0.5rem 1rem;
       border-radius: 0.5rem;
     }
+
+    .hourly__forecast--btn:hover,
+    .hourly__forecast--btn:focus,
+    .hourly__forecast--btn:checked {
+      background-color: var(--Neutral-700);
+    }
   }
 }
 
