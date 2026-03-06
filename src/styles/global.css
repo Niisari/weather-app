@@ -153,12 +153,12 @@ p {
     width: 100%;
     background: var(--Neutral-800);
     border-radius: 0.5rem;
-    padding: 1.175rem 1rem;
+    padding: 1.175rem 2.5rem;
 
     color: var(--Neutral-300);
     font-family: "DMSans", sans-serif;
     font-weight: 300;
-    font-size: 0.875rem;
+    font-size: 1.125rem;
 
     position: relative;
     anchor-name: --search-bar;
@@ -168,7 +168,6 @@ p {
       font-family: "DMSans", sans-serif;
       font-weight: 500;
       font-size: 1.125rem;
-      padding: 0 0 0 2rem;
     }
   }
 
