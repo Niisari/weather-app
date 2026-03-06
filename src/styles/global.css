@@ -632,7 +632,7 @@ p {
   box-shadow: 0 0.625rem 1.875rem rgba(0, 0, 0, 0.5);
 }
 
-.hourly__day {
+.hourly__option {
   color: var(--Neutral-200);
   font-family: "DMSans", sans-serif;
   font-weight: 500;
@@ -640,10 +640,11 @@ p {
   padding: 0.625rem 0.325rem;
   border-radius: 6px;
   width: 100%;
+  text-align: left;
 }
 
-.hourly__day:hover,
-.hourly__day:focus {
+.hourly__option:hover,
+.hourly__option:focus {
   color: var(--Neutral-0);
   cursor: pointer;
 
