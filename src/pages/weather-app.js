@@ -2,14 +2,15 @@ import logo from "../assets/images/logo.svg";
 import icons from "../assets/images/icons/icons.js";
 import { UnitsMenu } from "../components/UnitsMenu.js";
 import { HourlyMenu } from "../components/HourlyMenu.js";
+import { Loader } from "../components/Loading.js";
 import { getWeatherData } from "../api/WeatherApi.js";
 
 export class WeatherApp {
   constructor(root) {
     this.root = root;
     this.weatherData = null;
+    this.isLoading = false; // New state
 
-    // 1. Units State
     this.units = {
       temp: "celsius",
       wind: "kmh",
@@ -17,13 +18,9 @@ export class WeatherApp {
       isOpen: false,
     };
 
-    // 2. Hourly Selection State
     this.selectedHourlyDayIndex = 0;
   }
 
-  /**
-   * Maps Visual Crossing icon IDs to your local icons.js exports
-   */
   getWeatherIcon(iconId) {
     const iconMap = {
       snow: icons.iconSnow,
@@ -41,7 +38,6 @@ export class WeatherApp {
     return iconMap[iconId] || icons.iconSunny;
   }
 
-  // --- Client-Side Unit Conversion Helpers ---
   formatTemp(temp) {
     if (this.units.temp === "fahrenheit")
       return `${Math.round((temp * 9) / 5 + 32)}°`;
@@ -62,31 +58,31 @@ export class WeatherApp {
   async handleSearch() {
     const searchInput = this.root.querySelector(".search__input");
     const city = searchInput.value.trim();
-
     if (!city) return;
+
+    this.isLoading = true; // Start loading
+    this.render();
 
     try {
       const data = await getWeatherData(city);
       this.weatherData = data;
-      this.selectedHourlyDayIndex = 0; // Reset hourly view to 'Today' on new search
-      this.render();
+      this.selectedHourlyDayIndex = 0;
     } catch (error) {
-      // Catching the "Request disabled" or 404 text from our api.js
       alert(`Search failed: ${error.message}`);
+    } finally {
+      this.isLoading = false; // End loading
+      this.render();
     }
   }
 
   initEvents() {
-    // 1. Search Logic
     const searchBtn = this.root.querySelector(".search__button");
     const searchInput = this.root.querySelector(".search__input");
-
     searchBtn?.addEventListener("click", () => this.handleSearch());
     searchInput?.addEventListener("keypress", (e) => {
       if (e.key === "Enter") this.handleSearch();
     });
 
-    // 2. Units Dropdown & Radio Logic
     const unitsButton = this.root.querySelector("#units-button");
     const unitsDropdown = this.root.querySelector("#units-dropdown");
     const switchBtn = this.root.querySelector(".units__switch-btn");
@@ -105,7 +101,7 @@ export class WeatherApp {
     unitRadios.forEach((radio) => {
       radio.onchange = (e) => {
         this.units[e.target.name] = e.target.value;
-        this.units.isOpen = true; // Keep menu open to show change
+        this.units.isOpen = true;
         this.render();
       };
     });
@@ -121,7 +117,6 @@ export class WeatherApp {
       };
     }
 
-    // 3. Hourly Dropdown & Day Selection
     const hourlyButton = this.root.querySelector("#hourly-btn");
     const hourlyDropdown = this.root.querySelector("#hourly-dropdown");
     const hourlyOptions = this.root.querySelectorAll(".hourly__option");
@@ -132,19 +127,14 @@ export class WeatherApp {
         hourlyDropdown?.classList.toggle("show");
       };
     }
-    /**
-     * Updates the selected hourly day index and re-renders the hourly data
-     * @param {Event} e - Click event
-     */
 
     hourlyOptions.forEach((option) => {
       option.onclick = (e) => {
         this.selectedHourlyDayIndex = parseInt(e.target.dataset.index);
-        this.render(); // Re-render to show selected day's hours
+        this.render();
       };
     });
 
-    // 4. Global Click to Close Dropdowns
     document.onclick = (e) => {
       if (
         this.units.isOpen &&
@@ -154,16 +144,17 @@ export class WeatherApp {
         this.units.isOpen = false;
         this.render();
       }
-      if (
-        hourlyDropdown?.classList.contains("show") &&
-        !hourlyButton.contains(e.target)
-      ) {
-        hourlyDropdown.classList.remove("show");
-      }
     };
   }
 
   render() {
+    // If loading, show the header/search but replace the content with the Loader
+    if (this.isLoading) {
+      this.root.innerHTML = this.getHeaderAndSearchHTML(Loader());
+      this.initEvents();
+      return;
+    }
+
     if (!this.weatherData) {
       this.root.innerHTML = this.getInitialHTML();
       this.initEvents();
@@ -174,7 +165,6 @@ export class WeatherApp {
     const days = this.weatherData.days;
     const selectedDay = days[this.selectedHourlyDayIndex];
 
-    // Get label for Hourly button (e.g., "Today" or "Monday")
     const hourlyBtnLabel =
       this.selectedHourlyDayIndex === 0
         ? "Today"
@@ -182,21 +172,74 @@ export class WeatherApp {
             weekday: "long",
           });
 
-    this.root.innerHTML = `
+    // Main weather UI
+    const weatherContent = `
+      <div class="main__content--grid">
+        <section class="info__container">
+          <div class="info__card">
+            <div class="info__card--top">
+              <h2 class="info__card--title">${this.weatherData.resolvedAddress}</h2>
+              <span class="info__card--date">${new Date().toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "short" })}</span>
+            </div>
+            <div class="info__card--bottom">
+              <span class="info__card--icon"><img src="${this.getWeatherIcon(current.icon)}" alt="icon" width="120"/></span>
+              <span class="info__card--temp">${this.formatTemp(current.temp)}</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="forecast__details--grid">
+          ${this.renderDetail("Feels Like", this.formatTemp(current.feelslike))}
+          ${this.renderDetail("Humidity", `${current.humidity}%`)}
+          ${this.renderDetail("Wind", this.formatWind(current.windspeed))}
+          ${this.renderDetail("Precipitation", this.formatPrecip(current.precip))}
+        </section>
+
+        <section class="daily__forecast--section">
+          <h2 class="daily__forecast--title02">Daily Forecast</h2>
+          <div class="daily__forecast--grid">
+            ${days
+              .slice(0, 7)
+              .map((day) => this.renderDailyCard(day))
+              .join("")}
+          </div>
+        </section>
+
+        <section class="hourly__forecast--section">
+          <div class="hourly__forecast--top">
+            <h2 class="hourly__forecast--title">Hourly Forecast</h2>
+            <button class="hourly__forecast--btn" type="button" id="hourly-btn">
+              ${hourlyBtnLabel}
+              <svg width="10" height="auto" fill="none" viewBox="0 0 13 8"><path fill="#fff" d="M6.309 7.484 1.105 2.316c-.175-.14-.175-.421 0-.597l.704-.668a.405.405 0 0 1 .597 0l4.219 4.148 4.184-4.148c.175-.176.457-.176.597 0l.703.668c.176.176.176.457 0 .597L6.906 7.484a.405.405 0 0 1-.597 0Z"/></svg>               
+            </button>
+            ${HourlyMenu.render(days)}
+          </div>
+          <div class="hourly__forecast--flex">
+            ${selectedDay.hours
+              .filter((_, i) => i % 3 === 0)
+              .map((hour) => this.renderHourlyCard(hour))
+              .join("")}
+          </div>
+        </section>
+      </div>
+    `;
+
+    this.root.innerHTML = this.getHeaderAndSearchHTML(weatherContent);
+    this.initEvents();
+  }
+
+  // Helper to keep the Header and Search bar consistent across states
+  getHeaderAndSearchHTML(content) {
+    return `
     <main class="main__wrapper">
       <header class="header__wrapper">
         <div class="header__container">
-          <div class="header__logo">
-            <img src="${logo}" alt="logo"/>
-          </div>
-
+          <div class="header__logo"><img src="${logo}" alt="logo"/></div>
           <div class="units__container">
             <button class="units__button" type="button" id="units-button">
               <img src="${icons.iconUnits}" alt="units icon" width="14" class="units__wheel"/>
               <p class="units__text">Units</p>
-              <svg width="10" height="auto" fill="none" viewBox="0 0 13 8">
-                <path fill="#fff" d="M6.309 7.484 1.105 2.316c-.175-.14-.175-.421 0-.597l.704-.668a.405.405 0 0 1 .597 0l4.219 4.148 4.184-4.148c.175-.176.457-.176.597 0l.703.668c.176.176.176.457 0 .597L6.906 7.484a.405.405 0 0 1-.597 0Z"/>
-              </svg>
+              <svg width="10" height="auto" fill="none" viewBox="0 0 13 8"><path fill="#fff" d="M6.309 7.484 1.105 2.316c-.175-.14-.175-.421 0-.597l.704-.668a.405.405 0 0 1 .597 0l4.219 4.148 4.184-4.148c.175-.176.457-.176.597 0l.703.668c.176.176.176.457 0 .597L6.906 7.484a.405.405 0 0 1-.597 0Z"/></svg>
             </button>
             ${UnitsMenu.render(this.units)}
           </div>
@@ -208,70 +251,15 @@ export class WeatherApp {
           <div class="search__container">
             <h1 class="search__title">How's the sky looking today?</h1>
             <div class="search__form">
-              <input type="text" class="search__input" placeholder="Search for a city..." value="${this.weatherData.address || ""}"/>
+              <input type="text" class="search__input" placeholder="Search for a city..." value="${this.weatherData?.address || ""}" ${this.isLoading ? "disabled" : ""}/>
               <img src="${icons.iconSearch}" alt="search icon" class="search__icon" width="19"/>
-              <button class="search__button">Search</button>
+              <button class="search__button" ${this.isLoading ? "disabled" : ""}>${this.isLoading ? "Searching..." : "Search"}</button>
             </div>
           </div>
-
-          <div class="main__content--grid">
-            <section class="info__container">
-              <div class="info__card">
-                <div class="info__card--top">
-                  <h2 class="info__card--title">${this.weatherData.resolvedAddress}</h2>
-                  <span class="info__card--date">${new Date().toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "short" })}</span>
-                </div>
-                <div class="info__card--bottom">
-                  <span class="info__card--icon">
-                    <img src="${this.getWeatherIcon(current.icon)}" alt="weather icon" width="120"/>
-                  </span>
-                  <span class="info__card--temp">${this.formatTemp(current.temp)}</span>
-                </div>
-              </div>
-            </section>
-
-            <section class="forecast__details--grid">
-              ${this.renderDetail("Feels Like", this.formatTemp(current.feelslike))}
-              ${this.renderDetail("Humidity", `${current.humidity}%`)}
-              ${this.renderDetail("Wind", this.formatWind(current.windspeed))}
-              ${this.renderDetail("Precipitation", this.formatPrecip(current.precip))}
-            </section>
-
-            <section class="daily__forecast--section">
-              <h2 class="daily__forecast--title02">Daily Forecast</h2>
-              <div class="daily__forecast--grid">
-                ${days
-                  .slice(0, 7)
-                  .map((day) => this.renderDailyCard(day))
-                  .join("")}
-              </div>
-            </section>
-
-            <section class="hourly__forecast--section">
-              <div class="hourly__forecast--top">
-                <h2 class="hourly__forecast--title">Hourly Forecast</h2>
-                <button class="hourly__forecast--btn" type="button" id="hourly-btn">
-                  ${hourlyBtnLabel}
-                  <svg width="10" height="auto" fill="none" viewBox="0 0 13 8">
-                    <path fill="#fff" d="M6.309 7.484 1.105 2.316c-.175-.14-.175-.421 0-.597l.704-.668a.405.405 0 0 1 .597 0l4.219 4.148 4.184-4.148c.175-.176.457-.176.597 0l.703.668c.176.176.176.457 0 .597L6.906 7.484a.405.405 0 0 1-.597 0Z"/>
-                  </svg>               
-                </button>
-                ${HourlyMenu.render(days)}
-              </div>
-              <div class="hourly__forecast--flex">
-                ${selectedDay.hours
-                  .filter((_, i) => i % 3 === 0)
-                  .map((hour) => this.renderHourlyCard(hour))
-                  .join("")}
-              </div>
-            </section>
-          </div>
+          ${content}
         </div>
       </section>
-    </main>
-    `;
-
-    this.initEvents();
+    </main>`;
   }
 
   getInitialHTML() {
@@ -282,8 +270,7 @@ export class WeatherApp {
             <input type="text" class="search__input" placeholder="Search for a city..."/>
             <button class="search__button">Search</button>
          </div>
-      </div>
-    `;
+      </div>`;
   }
 
   renderDetail(title, value) {
@@ -301,9 +288,7 @@ export class WeatherApp {
     return `
       <div class="daily__forecast--card">
         <h3 class="daily__forecast--title">${dayName}</h3>
-        <span class="daily__forecast--icon">
-          <img src="${this.getWeatherIcon(day.icon)}" alt="icon" width="80"/>
-        </span>
+        <span class="daily__forecast--icon"><img src="${this.getWeatherIcon(day.icon)}" alt="icon" width="80"/></span>
         <div class="daily__forecast--bottom">
           <span class="daily__forecast--temp">${this.formatTemp(day.tempmax)}</span>
           <span class="daily__forecast--feels">${this.formatTemp(day.tempmin)}</span>
@@ -319,9 +304,7 @@ export class WeatherApp {
           <img src="${this.getWeatherIcon(hour.icon)}" alt="icon" width="30"/>
           <span>${time}</span>
         </div>
-        <div class="hourly__forecast--temp">
-          <span>${this.formatTemp(hour.temp)}</span>
-        </div>
+        <div class="hourly__forecast--temp"><span>${this.formatTemp(hour.temp)}</span></div>
       </div>`;
   }
 }
