@@ -9,7 +9,7 @@ export class WeatherApp {
     this.root = root;
     this.weatherData = null;
 
-    // Default units state and menu visibility
+    // Default units state
     this.units = {
       temp: "celsius",
       wind: "kmh",
@@ -56,7 +56,6 @@ export class WeatherApp {
   async handleSearch() {
     const searchInput = this.root.querySelector(".search__input");
     const city = searchInput.value.trim();
-
     if (!city) return;
 
     try {
@@ -72,13 +71,12 @@ export class WeatherApp {
     // 1. Search Logic
     const searchBtn = this.root.querySelector(".search__button");
     const searchInput = this.root.querySelector(".search__input");
-
     searchBtn?.addEventListener("click", () => this.handleSearch());
     searchInput?.addEventListener("keypress", (e) => {
       if (e.key === "Enter") this.handleSearch();
     });
 
-    // 2. Units Dropdown & Switch Logic
+    // 2. Units Logic
     const unitsButton = this.root.querySelector("#units-button");
     const unitsDropdown = this.root.querySelector("#units-dropdown");
     const switchBtn = this.root.querySelector(".units__switch-btn");
@@ -86,79 +84,58 @@ export class WeatherApp {
       '.units__option input[type="radio"]',
     );
 
-    if (unitsButton && unitsDropdown) {
-      // Toggle Menu
-      unitsButton.addEventListener("click", (e) => {
+    if (unitsButton) {
+      unitsButton.onclick = (e) => {
         e.stopPropagation();
         this.units.isOpen = !this.units.isOpen;
-        this.render(); // Re-render to show/hide menu
-      });
-
-      // Master Switch Button
-      if (switchBtn) {
-        switchBtn.addEventListener("click", (e) => {
-          e.stopPropagation(); // Keep menu open
-          const isMetric = this.units.temp === "celsius";
-          if (isMetric) {
-            this.units = {
-              temp: "fahrenheit",
-              wind: "mph",
-              precip: "in",
-              isOpen: true,
-            };
-          } else {
-            this.units = {
-              temp: "celsius",
-              wind: "kmh",
-              precip: "mm",
-              isOpen: true,
-            };
-          }
-          this.render();
-        });
-      }
-
-      // Individual Radio Buttons
-      unitRadios.forEach((radio) => {
-        radio.addEventListener("change", (e) => {
-          this.units[e.target.name] = e.target.value;
-          this.units.isOpen = true; // Keep menu open after selecting
-          this.render();
-        });
-      });
-
-      // Close if clicking outside
-      document.addEventListener("click", (e) => {
-        if (
-          this.units.isOpen &&
-          !unitsButton.contains(e.target) &&
-          !unitsDropdown.contains(e.target)
-        ) {
-          this.units.isOpen = false;
-          this.render();
-        }
-      });
+        this.render();
+      };
     }
 
-    // 3. Hourly Dropdown Logic (Basic Toggle)
+    // Individual Radio Button Logic
+    unitRadios.forEach((radio) => {
+      radio.onchange = (e) => {
+        // e.target.name is 'temp', 'wind', or 'precip'
+        // e.target.value is the unit (e.g., 'fahrenheit')
+        this.units[e.target.name] = e.target.value;
+        this.units.isOpen = true; // Keep menu open to see the change
+        this.render();
+      };
+    });
+
+    // Master Switch Logic (All-in-one toggle)
+    if (switchBtn) {
+      switchBtn.onclick = (e) => {
+        e.stopPropagation();
+        const isCurrentlyMetric = this.units.temp === "celsius";
+        this.units = isCurrentlyMetric
+          ? { temp: "fahrenheit", wind: "mph", precip: "in", isOpen: true }
+          : { temp: "celsius", wind: "kmh", precip: "mm", isOpen: true };
+        this.render();
+      };
+    }
+
+    // 3. Hourly Dropdown Logic
     const hourlyButton = this.root.querySelector("#hourly-btn");
     const hourlyDropdown = this.root.querySelector("#hourly-dropdown");
-
-    if (hourlyButton && hourlyDropdown) {
-      hourlyButton.addEventListener("click", (e) => {
+    if (hourlyButton) {
+      hourlyButton.onclick = (e) => {
         e.stopPropagation();
-        hourlyDropdown.classList.toggle("show");
-      });
-
-      document.addEventListener("click", (e) => {
-        if (
-          !hourlyButton.contains(e.target) &&
-          !hourlyDropdown.contains(e.target)
-        ) {
-          hourlyDropdown.classList.remove("show");
-        }
-      });
+        hourlyDropdown?.classList.toggle("show");
+      };
     }
+
+    // Global click to close units
+    document.onclick = (e) => {
+      if (
+        this.units.isOpen &&
+        !unitsButton.contains(e.target) &&
+        !unitsDropdown.contains(e.target)
+      ) {
+        this.units.isOpen = false;
+        this.render();
+      }
+    };
   }
 
   render() {
@@ -175,10 +152,7 @@ export class WeatherApp {
     <main class="main__wrapper">
       <header class="header__wrapper">
         <div class="header__container">
-          <div class="header__logo">
-            <img src="${logo}" alt="logo"/>
-          </div>
-
+          <div class="header__logo"><img src="${logo}" alt="logo"/></div>
           <div class="units__container">
             <button class="units__button" type="button" id="units-button">
               <img src="${icons.iconUnits}" alt="units icon" width="14" class="units__wheel"/>
@@ -211,9 +185,7 @@ export class WeatherApp {
                   <span class="info__card--date">${new Date().toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "short" })}</span>
                 </div>
                 <div class="info__card--bottom">
-                  <span class="info__card--icon">
-                    <img src="${this.getWeatherIcon(current.icon)}" alt="weather icon" width="120"/>
-                  </span>
+                  <span class="info__card--icon"><img src="${this.getWeatherIcon(current.icon)}" alt="icon" width="120"/></span>
                   <span class="info__card--temp">${this.formatTemp(current.temp)}</span>
                 </div>
               </div>
@@ -290,9 +262,7 @@ export class WeatherApp {
     return `
       <div class="daily__forecast--card">
         <h3 class="daily__forecast--title">${dayName}</h3>
-        <span class="daily__forecast--icon">
-          <img src="${this.getWeatherIcon(day.icon)}" alt="icon" width="80"/>
-        </span>
+        <span class="daily__forecast--icon"><img src="${this.getWeatherIcon(day.icon)}" alt="icon" width="80"/></span>
         <div class="daily__forecast--bottom">
           <span class="daily__forecast--temp">${this.formatTemp(day.tempmax)}</span>
           <span class="daily__forecast--feels">${this.formatTemp(day.tempmin)}</span>
@@ -308,9 +278,7 @@ export class WeatherApp {
           <img src="${this.getWeatherIcon(hour.icon)}" alt="icon" width="30"/>
           <span>${time}</span>
         </div>
-        <div class="hourly__forecast--temp">
-          <span>${this.formatTemp(hour.temp)}</span>
-        </div>
+        <div class="hourly__forecast--temp"><span>${this.formatTemp(hour.temp)}</span></div>
       </div>`;
   }
 }
