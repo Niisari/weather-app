@@ -1,6 +1,6 @@
 const API_KEY = "X46WCL4JVFS5FHTK57AAXR9GL";
 const BASE_URL =
-  "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/";
+  "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline";
 
 /**
  * Fetches weather data for a specific location.
