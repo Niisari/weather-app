@@ -4,7 +4,7 @@ const BASE_URL =
 
 /**
  * Fetches weather data for a specific location.
- * @param {string} location - The city or coordinates (e.g., "Prague, CZ").
+ * @param {string} location
  * @returns {Promise<Object>} - The formatted weather data.
  */
 export const getWeatherData = async (location) => {
@@ -26,6 +26,6 @@ export const getWeatherData = async (location) => {
     return data;
   } catch (error) {
     console.error("API Error:", error.message);
-    throw error; // Re-throw so your UI component can catch it and show the ErrorDisplay
+    throw error;
   }
 };
