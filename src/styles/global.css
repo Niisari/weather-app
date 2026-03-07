@@ -477,8 +477,9 @@ p {
     }
 
     .daily__forecast--card {
+      gap: 0.75rem;
       .daily__forecast--bottom {
-        gap: 1rem;
+        gap: 2rem;
       }
     }
   }
