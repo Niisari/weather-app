@@ -3,13 +3,15 @@ import icons from "../assets/images/icons/icons.js";
 import { UnitsMenu } from "../components/UnitsMenu.js";
 import { HourlyMenu } from "../components/HourlyMenu.js";
 import { Loader } from "../components/Loading.js";
+import { errorMessage } from "../components/ErrorMessage.js"; // 1. Import your new component
 import { getWeatherData } from "../api/WeatherApi.js";
 
 export class WeatherApp {
   constructor(root) {
     this.root = root;
     this.weatherData = null;
-    this.isLoading = false; // New state
+    this.isLoading = false;
+    this.hasError = false; // 2. New error state
 
     this.units = {
       temp: "celsius",
@@ -57,10 +59,12 @@ export class WeatherApp {
 
   async handleSearch() {
     const searchInput = this.root.querySelector(".search__input");
-    const city = searchInput.value.trim();
+    const city = searchInput ? searchInput.value.trim() : "";
+
     if (!city) return;
 
-    this.isLoading = true; // Start loading
+    this.isLoading = true;
+    this.hasError = false; // Reset error state on new search
     this.render();
 
     try {
@@ -68,14 +72,16 @@ export class WeatherApp {
       this.weatherData = data;
       this.selectedHourlyDayIndex = 0;
     } catch (error) {
-      alert(`Search failed: ${error.message}`);
+      console.error("API Error:", error);
+      this.hasError = true; // 3. Trigger the error state if the API fails
     } finally {
-      this.isLoading = false; // End loading
+      this.isLoading = false;
       this.render();
     }
   }
 
   initEvents() {
+    // Search Events
     const searchBtn = this.root.querySelector(".search__button");
     const searchInput = this.root.querySelector(".search__input");
     searchBtn?.addEventListener("click", () => this.handleSearch());
@@ -83,6 +89,18 @@ export class WeatherApp {
       if (e.key === "Enter") this.handleSearch();
     });
 
+    // Retry Button Event (From Error Screen)
+    const retryBtn = this.root.querySelector("#error-btn");
+    if (retryBtn) {
+      retryBtn.onclick = () => {
+        // Clear the error and data, returning them to the initial search view
+        this.hasError = false;
+        this.weatherData = null;
+        this.render();
+      };
+    }
+
+    // Units Events
     const unitsButton = this.root.querySelector("#units-button");
     const unitsDropdown = this.root.querySelector("#units-dropdown");
     const switchBtn = this.root.querySelector(".units__switch-btn");
@@ -117,6 +135,7 @@ export class WeatherApp {
       };
     }
 
+    // Hourly Events
     const hourlyButton = this.root.querySelector("#hourly-btn");
     const hourlyDropdown = this.root.querySelector("#hourly-dropdown");
     const hourlyOptions = this.root.querySelectorAll(".hourly__option");
@@ -138,8 +157,8 @@ export class WeatherApp {
     document.onclick = (e) => {
       if (
         this.units.isOpen &&
-        !unitsButton.contains(e.target) &&
-        !unitsDropdown.contains(e.target)
+        !unitsButton?.contains(e.target) &&
+        !unitsDropdown?.contains(e.target)
       ) {
         this.units.isOpen = false;
         this.render();
@@ -148,19 +167,35 @@ export class WeatherApp {
   }
 
   render() {
-    // If loading, show the header/search but replace the content with the Loader
+    // 1. Loading State
     if (this.isLoading) {
       this.root.innerHTML = this.getHeaderAndSearchHTML(Loader());
       this.initEvents();
       return;
     }
 
+    // 2. Error State (Matches your mockup: Header + Error message, NO search bar)
+    if (this.hasError) {
+      this.root.innerHTML = `
+        <main class="main__wrapper">
+          ${this.getHeaderHTML()}
+          <section class="main__section">
+             ${errorMessage()}
+          </section>
+        </main>
+      `;
+      this.initEvents();
+      return;
+    }
+
+    // 3. Initial View
     if (!this.weatherData) {
       this.root.innerHTML = this.getInitialHTML();
       this.initEvents();
       return;
     }
 
+    // 4. Main Weather UI
     const current = this.weatherData.currentConditions;
     const days = this.weatherData.days;
     const selectedDay = days[this.selectedHourlyDayIndex];
@@ -172,7 +207,6 @@ export class WeatherApp {
             weekday: "long",
           });
 
-    // Main weather UI
     const weatherContent = `
       <div class="main__content--grid">
         <section class="info__container">
@@ -228,10 +262,9 @@ export class WeatherApp {
     this.initEvents();
   }
 
-  // Helper to keep the Header and Search bar consistent across states
-  getHeaderAndSearchHTML(content) {
+  // Extracted Header logic so we can show just the Header on the Error screen
+  getHeaderHTML() {
     return `
-    <main class="main__wrapper">
       <header class="header__wrapper">
         <div class="header__container">
           <div class="header__logo"><img src="${logo}" alt="logo"/></div>
@@ -245,7 +278,13 @@ export class WeatherApp {
           </div>
         </div>
       </header>
+    `;
+  }
 
+  getHeaderAndSearchHTML(content) {
+    return `
+    <main class="main__wrapper">
+      ${this.getHeaderHTML()}
       <section class="main__section">
         <div class="main__container">
           <div class="search__container">
