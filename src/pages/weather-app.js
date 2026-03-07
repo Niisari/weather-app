@@ -64,7 +64,7 @@ export class WeatherApp {
     if (!city) return;
 
     this.isLoading = true;
-    this.hasError = false; // Reset error state on new search
+    this.hasError = false;
     this.render();
 
     try {
@@ -73,7 +73,7 @@ export class WeatherApp {
       this.selectedHourlyDayIndex = 0;
     } catch (error) {
       console.error("API Error:", error);
-      this.hasError = true; // 3. Trigger the error state if the API fails
+      this.hasError = true;
     } finally {
       this.isLoading = false;
       this.render();
@@ -93,7 +93,6 @@ export class WeatherApp {
     const retryBtn = this.root.querySelector("#error-btn");
     if (retryBtn) {
       retryBtn.onclick = () => {
-        // Clear the error and data, returning them to the initial search view
         this.hasError = false;
         this.weatherData = null;
         this.render();
@@ -188,71 +187,98 @@ export class WeatherApp {
       return;
     }
 
-    // 3. Initial View
-    if (!this.weatherData) {
-      this.root.innerHTML = this.getInitialHTML();
-      this.initEvents();
-      return;
-    }
+    // 3. Main Weather UI (Handles both Initial Empty state and Populated state)
+    const hasData = !!this.weatherData;
+    const current = hasData ? this.weatherData.currentConditions : null;
+    const days = hasData ? this.weatherData.days : [];
+    const selectedDay = hasData ? days[this.selectedHourlyDayIndex] : null;
 
-    // 4. Main Weather UI
-    const current = this.weatherData.currentConditions;
-    const days = this.weatherData.days;
-    const selectedDay = days[this.selectedHourlyDayIndex];
+    // Set up display variables, using placeholders if `hasData` is false
+    const titleText = hasData
+      ? this.weatherData.resolvedAddress
+      : "Search for a city";
+    const dateText = new Date().toLocaleDateString("en-GB", {
+      weekday: "long",
+      day: "numeric",
+      month: "short",
+    });
+    const mainIcon = hasData
+      ? this.getWeatherIcon(current.icon)
+      : icons.iconSunny;
+    const mainTemp = hasData ? this.formatTemp(current.temp) : "--°";
 
-    const hourlyBtnLabel =
-      this.selectedHourlyDayIndex === 0
+    const feelsLikeStr = hasData ? this.formatTemp(current.feelslike) : "--°";
+    const humidityStr = hasData ? `${current.humidity}%` : "--%";
+    const windStr = hasData ? this.formatWind(current.windspeed) : "--";
+    const precipStr = hasData ? this.formatPrecip(current.precip) : "--";
+
+    const hourlyBtnLabel = hasData
+      ? this.selectedHourlyDayIndex === 0
         ? "Today"
         : new Date(selectedDay.datetime).toLocaleDateString("en-US", {
             weekday: "long",
-          });
+          })
+      : "Today";
+
+    // Generate arrays for empty cards if there's no data
+    const dailyHtml = hasData
+      ? days
+          .slice(0, 7)
+          .map((day) => this.renderDailyCard(day))
+          .join("")
+      : Array.from({ length: 7 })
+          .map(() => this.renderEmptyDailyCard())
+          .join("");
+
+    const hourlyHtml = hasData
+      ? selectedDay.hours
+          .filter((_, i) => i % 3 === 0)
+          .map((hour) => this.renderHourlyCard(hour))
+          .join("")
+      : Array.from({ length: 8 })
+          .map(() => this.renderEmptyHourlyCard())
+          .join("");
 
     const weatherContent = `
       <div class="main__content--grid">
         <section class="info__container">
           <div class="info__card">
             <div class="info__card--top">
-              <h2 class="info__card--title">${this.weatherData.resolvedAddress}</h2>
-              <span class="info__card--date">${new Date().toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "short" })}</span>
+              <h2 class="info__card--title">${titleText}</h2>
+              <span class="info__card--date">${dateText}</span>
             </div>
             <div class="info__card--bottom">
-              <span class="info__card--icon"><img src="${this.getWeatherIcon(current.icon)}" alt="icon" width="120"/></span>
-              <span class="info__card--temp">${this.formatTemp(current.temp)}</span>
+              <span class="info__card--icon"><img src="${mainIcon}" alt="icon" width="120" ${!hasData ? 'style="opacity: 0.3;"' : ""}/></span>
+              <span class="info__card--temp">${mainTemp}</span>
             </div>
           </div>
         </section>
 
         <section class="forecast__details--grid">
-          ${this.renderDetail("Feels Like", this.formatTemp(current.feelslike))}
-          ${this.renderDetail("Humidity", `${current.humidity}%`)}
-          ${this.renderDetail("Wind", this.formatWind(current.windspeed))}
-          ${this.renderDetail("Precipitation", this.formatPrecip(current.precip))}
+          ${this.renderDetail("Feels Like", feelsLikeStr)}
+          ${this.renderDetail("Humidity", humidityStr)}
+          ${this.renderDetail("Wind", windStr)}
+          ${this.renderDetail("Precipitation", precipStr)}
         </section>
 
         <section class="daily__forecast--section">
           <h2 class="daily__forecast--title02">Daily Forecast</h2>
           <div class="daily__forecast--grid">
-            ${days
-              .slice(0, 7)
-              .map((day) => this.renderDailyCard(day))
-              .join("")}
+            ${dailyHtml}
           </div>
         </section>
 
         <section class="hourly__forecast--section">
           <div class="hourly__forecast--top">
             <h2 class="hourly__forecast--title">Hourly Forecast</h2>
-            <button class="hourly__forecast--btn" type="button" id="hourly-btn">
+            <button class="hourly__forecast--btn" type="button" id="hourly-btn" ${!hasData ? "disabled" : ""}>
               ${hourlyBtnLabel}
-              <svg width="10" height="auto" fill="none" viewBox="0 0 13 8"><path fill="#fff" d="M6.309 7.484 1.105 2.316c-.175-.14-.175-.421 0-.597l.704-.668a.405.405 0 0 1 .597 0l4.219 4.148 4.184-4.148c.175-.176.457-.176.597 0l.703.668c.176.176.176.457 0 .597L6.906 7.484a.405.405 0 0 1-.597 0Z"/></svg>               
+              <svg width="10" height="auto" fill="none" viewBox="0 0 13 8"><path fill="#fff" d="M6.309 7.484 1.105 2.316c-.175-.14-.175-.421 0-.597l.704-.668a.405.405 0 0 1 .597 0l4.219 4.148 4.184-4.148c.175-.176.457-.176.597 0l.703.668c.176.176.176.457 0 .597L6.906 7.484a.405.405 0 0 1-.597 0Z"/></svg>              
             </button>
-            ${HourlyMenu.render(days)}
+            ${hasData ? HourlyMenu.render(days) : ""}
           </div>
           <div class="hourly__forecast--flex">
-            ${selectedDay.hours
-              .filter((_, i) => i % 3 === 0)
-              .map((hour) => this.renderHourlyCard(hour))
-              .join("")}
+            ${hourlyHtml}
           </div>
         </section>
       </div>
@@ -300,17 +326,6 @@ export class WeatherApp {
     </main>`;
   }
 
-  getInitialHTML() {
-    return `
-      <div class="search__container initial-view" style="margin-top: 150px; text-align: center;">
-         <h1 class="search__title">How's the sky looking today?</h1>
-         <div class="search__form">
-            <input type="text" class="search__input" placeholder="Search for a city..."/>
-            <button class="search__button">Search</button>
-         </div>
-      </div>`;
-  }
-
   renderDetail(title, value) {
     return `
       <div class="forecast__details--card">
@@ -343,6 +358,31 @@ export class WeatherApp {
           <span>${time}</span>
         </div>
         <div class="hourly__forecast--temp"><span>${this.formatTemp(hour.temp)}</span></div>
+      </div>`;
+  }
+
+  // --- New Methods for Empty States ---
+
+  renderEmptyDailyCard() {
+    return `
+      <div class="daily__forecast--card">
+        <h3 class="daily__forecast--title">--</h3>
+        <span class="daily__forecast--icon"><img src="${icons.iconSunny}" alt="icon" width="80" style="opacity: 0.2;"/></span>
+        <div class="daily__forecast--bottom">
+          <span class="daily__forecast--temp">--°</span>
+          <span class="daily__forecast--feels">--°</span>
+        </div>
+      </div>`;
+  }
+
+  renderEmptyHourlyCard() {
+    return `
+      <div class="hourly__forecast--card">
+        <div class="hourly__forecast--time">
+          <img src="${icons.iconSunny}" alt="icon" width="30" style="opacity: 0.2;"/>
+          <span>--:--</span>
+        </div>
+        <div class="hourly__forecast--temp"><span>--°</span></div>
       </div>`;
   }
 }
