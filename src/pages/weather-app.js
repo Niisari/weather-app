@@ -23,6 +23,8 @@ export class WeatherApp {
     this.selectedHourlyDayIndex = 0;
   }
 
+  // --- Utility Helpers ---
+
   getWeatherIcon(iconId) {
     const iconMap = {
       snow: icons.iconSnow,
@@ -57,6 +59,8 @@ export class WeatherApp {
     return `${amount} mm`;
   }
 
+  // --- Logic ---
+
   async handleSearch() {
     const searchInput = this.root.querySelector(".search__input");
     const city = searchInput ? searchInput.value.trim() : "";
@@ -68,7 +72,21 @@ export class WeatherApp {
     this.render();
 
     try {
+      // 1. Fetch Weather Data
       const data = await getWeatherData(city);
+
+      // 2. Reverse Geocode to get the Country Name using coordinates
+      try {
+        const geoRes = await fetch(
+          `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${data.latitude}&longitude=${data.longitude}&localityLanguage=en`,
+        );
+        const geoData = await geoRes.json();
+        // Add the country name to our data object
+        data.countryName = geoData.countryName;
+      } catch (geoError) {
+        console.warn("Could not fetch country name:", geoError);
+      }
+
       this.weatherData = data;
       this.selectedHourlyDayIndex = 0;
     } catch (error) {
@@ -81,7 +99,6 @@ export class WeatherApp {
   }
 
   initEvents() {
-    // Search Events
     const searchBtn = this.root.querySelector(".search__button");
     const searchInput = this.root.querySelector(".search__input");
     searchBtn?.addEventListener("click", () => this.handleSearch());
@@ -89,7 +106,6 @@ export class WeatherApp {
       if (e.key === "Enter") this.handleSearch();
     });
 
-    // Retry Button Event (From Error Screen)
     const retryBtn = this.root.querySelector("#error-btn");
     if (retryBtn) {
       retryBtn.onclick = () => {
@@ -99,7 +115,6 @@ export class WeatherApp {
       };
     }
 
-    // Units Events
     const unitsButton = this.root.querySelector("#units-button");
     const unitsDropdown = this.root.querySelector("#units-dropdown");
     const switchBtn = this.root.querySelector(".units__switch-btn");
@@ -134,7 +149,6 @@ export class WeatherApp {
       };
     }
 
-    // Hourly Events
     const hourlyButton = this.root.querySelector("#hourly-btn");
     const hourlyDropdown = this.root.querySelector("#hourly-dropdown");
     const hourlyOptions = this.root.querySelectorAll(".hourly__option");
@@ -165,15 +179,15 @@ export class WeatherApp {
     };
   }
 
+  // --- Rendering ---
+
   render() {
-    // 1. Loading State
     if (this.isLoading) {
       this.root.innerHTML = this.getHeaderAndSearchHTML(Loader());
       this.initEvents();
       return;
     }
 
-    // 2. Error State
     if (this.hasError) {
       this.root.innerHTML = `
         <main class="main__wrapper">
@@ -187,31 +201,29 @@ export class WeatherApp {
       return;
     }
 
-    // 3. Main Weather UI (Handles both Initial Empty state and Populated state)
     const hasData = !!this.weatherData;
     const current = hasData ? this.weatherData.currentConditions : null;
     const days = hasData ? this.weatherData.days : [];
     const selectedDay = hasData ? days[this.selectedHourlyDayIndex] : null;
 
-    // Set up display variables, using placeholders if `hasData` is false
-    const titleText = hasData
-      ? this.weatherData.resolvedAddress
-      : "Search for a city";
-    const dateText = new Date().toLocaleDateString("en-GB", {
+    // Location Formatting
+    let locationTitle = "How's the sky looking today?";
+    if (hasData) {
+      const address = this.weatherData.resolvedAddress;
+      const country = this.weatherData.countryName;
+      // If the address doesn't contain the country name
+      if (country && !address.toLowerCase().includes(country.toLowerCase())) {
+        locationTitle = `${address}, ${country}`;
+      } else {
+        locationTitle = address;
+      }
+    }
+
+    const dateStr = new Date().toLocaleDateString("en-GB", {
       weekday: "long",
       day: "numeric",
       month: "short",
     });
-    const mainIcon = hasData
-      ? this.getWeatherIcon(current.icon)
-      : icons.iconSunny;
-    const mainTemp = hasData ? this.formatTemp(current.temp) : "--°";
-
-    const feelsLikeStr = hasData ? this.formatTemp(current.feelslike) : "--°";
-    const humidityStr = hasData ? `${current.humidity}%` : "--%";
-    const windStr = hasData ? this.formatWind(current.windspeed) : "--";
-    const precipStr = hasData ? this.formatPrecip(current.precip) : "--";
-
     const hourlyBtnLabel = hasData
       ? this.selectedHourlyDayIndex === 0
         ? "Today"
@@ -220,51 +232,43 @@ export class WeatherApp {
           })
       : "Today";
 
-    // Generate arrays for empty cards if there's no data
-    const dailyHtml = hasData
-      ? days
-          .slice(0, 7)
-          .map((day) => this.renderDailyCard(day))
-          .join("")
-      : Array.from({ length: 7 })
-          .map(() => this.renderEmptyDailyCard())
-          .join("");
-
-    const hourlyHtml = hasData
-      ? selectedDay.hours
-          .filter((_, i) => i % 3 === 0)
-          .map((hour) => this.renderHourlyCard(hour))
-          .join("")
-      : Array.from({ length: 8 })
-          .map(() => this.renderEmptyHourlyCard())
-          .join("");
-
     const weatherContent = `
       <div class="main__content--grid">
         <section class="info__container">
           <div class="info__card">
             <div class="info__card--top">
-              <h2 class="info__card--title">${titleText}</h2>
-              <span class="info__card--date">${dateText}</span>
+              <h2 class="info__card--title">${hasData ? locationTitle : "Enter a Location"}</h2>
+              <span class="info__card--date">${dateStr}</span>
             </div>
             <div class="info__card--bottom">
-              <span class="info__card--icon"><img src="${mainIcon}" alt="icon" width="120" ${!hasData ? 'style="opacity: 0.3;"' : ""}/></span>
-              <span class="info__card--temp">${mainTemp}</span>
+              <span class="info__card--icon">
+                <img src="${hasData ? this.getWeatherIcon(current.icon) : icons.iconSunny}" alt="icon" width="120" style="${!hasData ? "opacity: 0.2" : ""}"/>
+              </span>
+              <span class="info__card--temp">${hasData ? this.formatTemp(current.temp) : "--°"}</span>
             </div>
           </div>
         </section>
 
         <section class="forecast__details--grid">
-          ${this.renderDetail("Feels Like", feelsLikeStr)}
-          ${this.renderDetail("Humidity", humidityStr)}
-          ${this.renderDetail("Wind", windStr)}
-          ${this.renderDetail("Precipitation", precipStr)}
+          ${this.renderDetail("Feels Like", hasData ? this.formatTemp(current.feelslike) : "--°")}
+          ${this.renderDetail("Humidity", hasData ? `${current.humidity}%` : "--%")}
+          ${this.renderDetail("Wind", hasData ? this.formatWind(current.windspeed) : "--")}
+          ${this.renderDetail("Precipitation", hasData ? this.formatPrecip(current.precip) : "--")}
         </section>
 
         <section class="daily__forecast--section">
-          <h2 class="daily__forecast--title02">Daily Forecast</h2>
+          <h2 class="daily__forecast--title02">7-Day Forecast</h2>
           <div class="daily__forecast--grid">
-            ${dailyHtml}
+            ${
+              hasData
+                ? days
+                    .slice(0, 7)
+                    .map((day) => this.renderDailyCard(day))
+                    .join("")
+                : Array.from({ length: 7 })
+                    .map(() => this.renderEmptyDailyCard())
+                    .join("")
+            }
           </div>
         </section>
 
@@ -278,7 +282,16 @@ export class WeatherApp {
             ${hasData ? HourlyMenu.render(days) : ""}
           </div>
           <div class="hourly__forecast--flex">
-            ${hourlyHtml}
+            ${
+              hasData
+                ? selectedDay.hours
+                    .filter((_, i) => i % 3 === 0)
+                    .map((hour) => this.renderHourlyCard(hour))
+                    .join("")
+                : Array.from({ length: 8 })
+                    .map(() => this.renderEmptyHourlyCard())
+                    .join("")
+            }
           </div>
         </section>
       </div>
@@ -287,6 +300,8 @@ export class WeatherApp {
     this.root.innerHTML = this.getHeaderAndSearchHTML(weatherContent);
     this.initEvents();
   }
+
+  // --- Component Template Helpers ---
 
   getHeaderHTML() {
     return `
@@ -307,6 +322,7 @@ export class WeatherApp {
   }
 
   getHeaderAndSearchHTML(content) {
+    const cityName = this.weatherData?.address || "";
     return `
     <main class="main__wrapper">
       ${this.getHeaderHTML()}
@@ -315,7 +331,7 @@ export class WeatherApp {
           <div class="search__container">
             <h1 class="search__title">How's the sky looking today?</h1>
             <div class="search__form">
-              <input type="text" class="search__input" placeholder="Search for a city..." value="${this.weatherData?.address || ""}" ${this.isLoading ? "disabled" : ""}/>
+              <input type="text" class="search__input" placeholder="Search for a city..." value="${cityName}" ${this.isLoading ? "disabled" : ""}/>
               <img src="${icons.iconSearch}" alt="search icon" class="search__icon" width="19"/>
               <button class="search__button" ${this.isLoading ? "disabled" : ""}>${this.isLoading ? "Searching..." : "Search"}</button>
             </div>
@@ -361,13 +377,11 @@ export class WeatherApp {
       </div>`;
   }
 
-  // --- New Methods for Empty States ---
-
   renderEmptyDailyCard() {
     return `
       <div class="daily__forecast--card">
         <h3 class="daily__forecast--title">--</h3>
-        <span class="daily__forecast--icon"><img src="${icons.iconSunny}" alt="icon" width="80" style="opacity: 0.2;"/></span>
+        <span class="daily__forecast--icon"><img src="${icons.iconSunny}" alt="icon" width="80" style="opacity: 0.1;"/></span>
         <div class="daily__forecast--bottom">
           <span class="daily__forecast--temp">--°</span>
           <span class="daily__forecast--feels">--°</span>
@@ -379,7 +393,7 @@ export class WeatherApp {
     return `
       <div class="hourly__forecast--card">
         <div class="hourly__forecast--time">
-          <img src="${icons.iconSunny}" alt="icon" width="30" style="opacity: 0.2;"/>
+          <img src="${icons.iconSunny}" alt="icon" width="30" style="opacity: 0.1;"/>
           <span>--:--</span>
         </div>
         <div class="hourly__forecast--temp"><span>--°</span></div>
