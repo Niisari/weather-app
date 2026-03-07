@@ -3,7 +3,7 @@ import icons from "../assets/images/icons/icons.js";
 import { UnitsMenu } from "../components/UnitsMenu.js";
 import { HourlyMenu } from "../components/HourlyMenu.js";
 import { Loader } from "../components/Loading.js";
-import { errorMessage } from "../components/ErrorMessage.js"; // 1. Import your new component
+import { errorMessage } from "../components/ErrorMessage.js";
 import { getWeatherData } from "../api/WeatherApi.js";
 
 export class WeatherApp {
@@ -11,7 +11,7 @@ export class WeatherApp {
     this.root = root;
     this.weatherData = null;
     this.isLoading = false;
-    this.hasError = false; // 2. New error state
+    this.hasError = false;
 
     this.units = {
       temp: "celsius",
@@ -174,7 +174,7 @@ export class WeatherApp {
       return;
     }
 
-    // 2. Error State (Matches your mockup: Header + Error message, NO search bar)
+    // 2. Error State
     if (this.hasError) {
       this.root.innerHTML = `
         <main class="main__wrapper">
@@ -262,7 +262,6 @@ export class WeatherApp {
     this.initEvents();
   }
 
-  // Extracted Header logic so we can show just the Header on the Error screen
   getHeaderHTML() {
     return `
       <header class="header__wrapper">
