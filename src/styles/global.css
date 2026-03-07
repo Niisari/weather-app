@@ -431,32 +431,31 @@ p {
   }
 
   .search__container {
+    width: 52%;
+    margin: 0 auto;
     padding: 1rem 1rem 2rem;
-    .search__title {
-      margin: 0 8.5vw 0 0;
-    }
 
     .search__form {
       display: flex;
       flex-direction: row;
       justify-content: center;
       gap: 1rem;
-
-      margin: 0 10.25vw 0 0;
     }
 
     .search__input {
-      width: 30rem;
+      width: 70%;
+      padding: 0 2.5rem;
     }
 
     .search__button {
-      width: 8rem;
+      width: 6rem;
+      padding: 0.75rem;
     }
   }
 
   .main__content--grid {
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: 2fr 1fr;
     margin: 0 6vw 6vh;
     grid-template-areas:
       "info hourly"
