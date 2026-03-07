@@ -673,3 +673,54 @@ p {
     transform: rotate(360deg);
   }
 }
+/* API Error Styles */
+.error__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 6.25rem 1.25rem;
+  margin: auto;
+}
+
+.error__icon-main {
+  margin-bottom: 1.5rem;
+}
+
+.error__title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--Neutral-0);
+  margin-bottom: 0.75rem;
+}
+
+.error__text {
+  color: var(--Neutral-200);
+  font-size: var(--Default-Font-Size);
+  max-width: 26.25rem;
+  margin-bottom: 1rem;
+}
+
+.error__btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--Neutral-800);
+  color: var(--Neutral-200);
+  border-radius: 0.5rem;
+  padding: 0.625rem 1rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.error__btn:hover {
+  background-color: var(--Neutral-700);
+}
+
+.error__btn,
+.error__text,
+.error__title {
+  font-family: "DMSans", sans-serif;
+}
