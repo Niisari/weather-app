@@ -24,7 +24,6 @@ export class WeatherApp {
   }
 
   // --- Utility Helpers ---
-
   getWeatherIcon(iconId) {
     const iconMap = {
       snow: icons.iconSnow,
@@ -59,8 +58,7 @@ export class WeatherApp {
     return `${amount} mm`;
   }
 
-  // --- Logic ---
-
+  // --- Searchbar Handlers ---
   async handleSearch() {
     const searchInput = this.root.querySelector(".search__input");
     const city = searchInput ? searchInput.value.trim() : "";
@@ -97,7 +95,7 @@ export class WeatherApp {
       this.render();
     }
   }
-
+  // --- Event Handlers ---
   initEvents() {
     const searchBtn = this.root.querySelector(".search__button");
     const searchInput = this.root.querySelector(".search__input");
@@ -178,9 +176,7 @@ export class WeatherApp {
       }
     };
   }
-
-  // --- Rendering ---
-
+  // --- Render ---
   render() {
     if (this.isLoading) {
       this.root.innerHTML = this.getHeaderAndSearchHTML(Loader());
@@ -302,7 +298,6 @@ export class WeatherApp {
   }
 
   // --- Component Template Helpers ---
-
   getHeaderHTML() {
     return `
       <header class="header__wrapper">

@@ -253,7 +253,7 @@ p {
     }
   }
 }
-/* Forecast Section Styles */
+/* Forecast Details Section Styles */
 .forecast__details--grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -452,7 +452,7 @@ p {
       padding: 0.75rem;
     }
   }
-
+  /* Main UI Layout */
   .main__content--grid {
     display: grid;
     grid-template-columns: 2fr 1fr;
